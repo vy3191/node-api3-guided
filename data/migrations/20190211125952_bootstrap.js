@@ -1,31 +1,29 @@
 exports.up = function(knex) {
   return knex.schema
-    .createTable('hubs', tbl => {
-      tbl.increments();
-      tbl.string('name').notNullable();
-      tbl.timestamps(true, true);
-
-      tbl.unique('name');
+    .createTable("hubs", tbl => {
+      tbl.increments()
+      tbl.string("name").notNullable()
+      tbl.timestamps(true, true)
     })
-    .createTable('messages', tbl => {
-      tbl.increments();
+    .createTable("messages", tbl => {
+      tbl.increments()
       tbl
-        .string('sender')
+        .string("sender")
         .notNullable()
-        .index();
-      tbl.text('text').notNullable();
-      tbl.timestamps(true, true);
+        .index()
+      tbl.text("text").notNullable()
+      tbl.timestamps(true, true)
 
       tbl
-        .integer('hub_id')
+        .integer("hub_id")
         .unsigned()
-        .references('id')
-        .inTable('hubs')
-        .onDelete('CASCADE')
-        .onUpdate('CASCADE');
-    });
-};
+        .references("id")
+        .inTable("hubs")
+        .onDelete("CASCADE")
+        .onUpdate("CASCADE")
+    })
+}
 
 exports.down = function(knex) {
-  return knex.schema.dropTableIfExists('messages').dropTableIfExists('hubs');
-};
+  return knex.schema.dropTableIfExists("messages").dropTableIfExists("hubs")
+}

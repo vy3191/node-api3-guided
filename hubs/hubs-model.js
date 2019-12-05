@@ -9,8 +9,8 @@ module.exports = {
   remove,
   update,
   findHubMessages,
-  findMessageById,
-  addMessage,
+  findHubMessageById,
+  addHubMessage,
 }
 
 function find(query = {}) {
@@ -57,14 +57,15 @@ function findHubMessages(hubId) {
     .select(["m.id", "m.text", "m.sender", "h.id as hubId", "h.name as hub"])
 }
 
-function findMessageById(id) {
+function findHubMessageById(hubId, id) {
   return db("messages")
-    .where({ id })
+    .where({ id, hub_id: hubId })
     .first()
 }
 
-async function addMessage(message) {
-  const [id] = await db("messages").insert(message)
+async function addHubMessage(hubId, message) {
+  const data = { hub_id: hubId, ...message }
+  const [id] = await db("messages").insert(data)
 
-  return findMessageById(id)
+  return findHubMessageById(hubId, id)
 }

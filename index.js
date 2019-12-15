@@ -24,6 +24,13 @@ server.use((req,res) => {
    res.status(404).json({
       message: "Route is not found"
    })
+});
+
+server.use((err,req,res,next) => {
+   console.log(err);
+   res.status(500).json({
+      message:"An internal error occured",
+   })
 })
 
 server.listen(4000, () => {
